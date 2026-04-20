@@ -1,0 +1,122 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #f4f6fb;
+    color: #1f2937;
+}
+
+.navbar {
+    background: #1e293b;
+    color: white;
+    padding: 16px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    margin: 0;
+}
+
+.nav-right a {
+    color: #cbd5f5;
+    margin-left: 20px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.nav-right a:hover {
+    color: white;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+.card {
+    background: white;
+    border-radius: 14px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 6px 14px rgba(0,0,0,0.08);
+}
+
+.welcome {
+    color: #2563eb;
+    font-weight: bold;
+}
+
+form {
+    margin-top: 10px;
+}
+
+input, select {
+    padding: 10px;
+    margin: 8px 0 16px 0;
+    border-radius: 8px;
+    border: 1px solid #cbd5e1;
+    width: 100%;
+}
+
+.button1,
+.button2,
+.button3 {
+    padding: 8px 12px;
+    border-radius: 8px;
+    text-decoration: none;
+    color: white;
+    font-size: 13px;
+    border: none;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.button1 {
+    background: #2563eb;
+}
+
+.button2 {
+    background: #f59e0b;
+}
+
+.button3 {
+    background: #dc2626;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+td {
+    padding: 12px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+tr:hover {
+    background: #f9fafb;
+}
+
+.label {
+    padding: 5px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.pending {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+.done {
+    background: #dcfce7;
+    color: #15803d;
+}

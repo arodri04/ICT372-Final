@@ -1,0 +1,4 @@
+#Start venv with venv/scripts/activate
+#Install with pip install -r requirements.txt
+Flask
+Flask-SQLAlchemy

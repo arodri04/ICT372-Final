@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To do</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <nav class="navbar">
+        <h2 class="logo">To do</h2>
+        <div class="nav-right">
+            <a href="{{ url_for('login') }}">Login</a>
+            <a href="{{ url_for('register') }}">Register</a>
+            <a href="{{ url_for('logout') }}">Logout</a>
+        </div>
+    </nav>
+
+    <div class="container">
+
+        <div class="card">
+            <h1>To Do List</h1>
+            {% if user %}
+                <p class="welcome">Hello, {{ user }}</p>
+            {% endif %}
+        </div>
+
+        {% if user %}
+        <div class="card">
+            <h2>Add New Task</h2>
+            <form action="/add" method="post">
+                <label for="name">Enter the task</label>
+                <input type="text" id="name" name="name" placeholder="Enter task name">
+
+                <label for="dueDate">When is it due?</label>
+                <select name="dueDate" id="dueDate">
+                    <option value="0">None</option>
+                    <option value="1">1 Day</option>
+                    <option value="2">2 Days</option>
+                    <option value="3">3 Days</option>
+                    <option value="4">4 Days</option>
+                    <option value="5">5 Days</option>
+                    <option value="6">6 Days</option>
+                    <option value="7">7 Days</option>
+                </select>
+
+                <button class="button1" type="submit">Add Task</button>
+            </form>
+        </div>
+        {% endif %}
+
+        {% if lateTodos %}
+        <div class="card">
+            <h2 style="color: #dc2626;">Late Todos</h2>
+            <table>
+                <tbody>
+                    {% for todo in lateTodos %}
+                    <tr>
+                        <td>{{ todo[4] }}</td>
+                        <td>{{ todo[1] }}</td>
+                        <td>
+                            {% if todo[2] == False %}
+                                <span class="label pending">Not done</span>
+                            {% else %}
+                                <span class="label done">Done</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ todo[5] }}</td>
+                        <td><a href="/update/{{ todo[0] }}" class="button2">Update</a></td>
+                        <td><a href="/delete/{{ todo[0] }}" class="button3">Delete</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+
+        {% if todo_list %}
+        <div class="card">
+            <h2>All Todos</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <td><strong>Created</strong></td>
+                        <td><strong>Task</strong></td>
+                        <td><strong>Status</strong></td>
+                        <td><strong>Due Date</strong></td>
+                        <td><strong>Update</strong></td>
+                        <td><strong>Delete</strong></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for todo in todo_list %}
+                    <tr>
+                        <td>{{ todo[4] }}</td>
+                        <td>{{ todo[1] }}</td>
+                        <td>
+                            {% if todo[2] == False %}
+                                <span class="label pending">Not done</span>
+                            {% else %}
+                                <span class="label done">Done</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ todo[5] }}</td>
+                        <td><a href="/update/{{ todo[0] }}" class="button2">Update</a></td>
+                        <td><a href="/delete/{{ todo[0] }}" class="button3">Delete</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+
+    </div>
+
+</body>
+</html>
