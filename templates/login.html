@@ -6,16 +6,21 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css')}}">
 </head>
     <nav class="navbar">
-        <h2 class="logo">To do</h2>
+        <a href="{{ url_for('home') }}" style="text-decoration: none; color: inherit;"><h2 class="logo">Space Corp</h2></a>
+        <div class="nav-right">
+            <a href="{{ url_for('news') }}">News</a>
+
+        </div>
         <div class="nav-right">
             <a href="{{ url_for('login') }}">Login</a>
             <a href="{{ url_for('register') }}">Register</a>
             <a href="{{ url_for('logout') }}">Logout</a>
         </div>
+ 
     </nav>
 <body>
 <div class="container" >
-        <h1>To Do List</h1>
+        <h1>Login</h1>
         {% if error %}
         <p style="color: red;">{{ error }}</p>
         {% endif %}

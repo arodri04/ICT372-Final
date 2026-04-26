@@ -4,6 +4,7 @@ import string
 import re
 from datetime import date
 import random
+import requests
 
 def connectDB():
     try:
@@ -85,39 +86,23 @@ def getUserId(username):
         if conn:
             conn.close()
 
-def getUserTodos(userId):
-    try:
-        conn = connectDB()
-        if not conn:
-            return False
-        
-        cursor = conn.cursor()
-        query = "SELECT * FROM todo WHERE userId = ?"
-        cursor.execute(query,(userId,))
-        result = cursor.fetchall()
-        if result:
-            return result
-            
-        return result
-    
-    except sqlite3.Error as e:
-        print(f"Database Error {e}")
-        return False
-    
-    finally:
-        if conn:
-            conn.close()
 
+def getNews():
+    url = "https://api.spaceflightnewsapi.net/v4/articles"
+    response = requests.get(url)
+    if response.status_code == 200:
+        data = response.json()
+        
+        articles = data.get('results', [])
+        
+        return articles
+    else:
+        print(f"Error: {response.status_code}") 
+    
 def saltShaker():
     characters = string.ascii_letters + string.digits
     salt = ''.join(random.choices(characters, k=5))
     return salt
 
-def getLateList(todos):
-    lateList = []
-    if len(todos) > 0:
-        for todo in todos:
-            dueDate = todo[5].split('-')
-            if (date(int(dueDate[0]),int(dueDate[1]),int(dueDate[2])) < date.today()) and (todo[4] != todo[5]) and not todo[2]:
-                lateList.append(todo)
-    return lateList
+
+

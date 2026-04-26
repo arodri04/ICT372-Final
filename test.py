@@ -1,8 +1,16 @@
-from datetime import date
+# Spaceflight News API Example
+import requests
 
-testdate = "2026-4-2".split('-')
-
-if date.today() > date(int(testdate[0]),int(testdate[1]),int(testdate[2])):
-    print("Today is greater")
+url = "https://api.spaceflightnewsapi.net/v4/articles"
+response = requests.get(url)
+if response.status_code == 200:
+    data = response.json()
+    # Articles are usually contained in the 'results' key in v4
+    articles = data.get('results', [])
+    
+    for article in articles:
+        print(f"Title: {article['title']}")
+        print(f"Source: {article['news_site']}")
+        print(f"Link: {article['url']}\n")
 else:
-    print("not greater")
+    print(f"Error: {response.status_code}")

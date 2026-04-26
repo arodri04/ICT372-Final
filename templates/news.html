@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>To do</title>
+    <title>SpaceTracker</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
@@ -21,22 +21,20 @@
         </div>
  
     </nav>
-
+    {% if articles %}
+    <div class="container">
+        {% for article in articles %}
         <div class="card">
-            <h1>Space Corp</h1>
-            {% if user %}
-                <p class="welcome">Hello, {{ user }}</p>
-            {% endif %}
+            <img src="{{ article['image_url'] }}" alt="{{ article['title'] }}" style="width:50%; height:auto;">
+            <a href='{{ article["url"] }}' ><h4>{{ article["title"] }}</h4></a>
+            <p>{{ article["authors"][0]["name"] }}</p>
+            <p>{{ article["published_at"][:10] }}</p>          
+            <p>{{ article["summary"] }}</p>
+            
         </div>
-        {% if articles %}
-            <div class="card">
-                <a href="{{ url_for('news') }}"><h2>News</h2></a>
-
-            </div>
-        {% endif %}
-
-
+        {% endfor %}
     </div>
+    {% endif %}
 
 </body>
 </html>

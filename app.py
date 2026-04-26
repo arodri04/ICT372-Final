@@ -18,14 +18,23 @@ db.init_app(app)
 def home():
     #If there is no session populate with none
     if session:
-        todo_list=getUserTodos(session['userId'])
-        lateTodos=getLateList(todo_list)
         user = session['user']
+        articles = getNews()
     else:
-        todo_list = None
         user = None 
-        lateTodos = None
-    return rt('base.html',todo_list=todo_list, user=user, lateTodos=lateTodos)
+        articles = None
+    return rt('base.html', user=user, articles=articles)
+
+@app.route('/news')
+def news():
+    #If there is no session populate with none
+    if session:
+        user = session['user']
+        articles = getNews()
+    else:
+        user = None 
+        articles = None
+    return rt('news.html', user=user, articles=articles)
 
 @app.route('/login', methods=["GET","POST"])
 def login():
@@ -67,36 +76,7 @@ def register():
          
         return rt("register.html")    
 
-@app.route('/add',methods=['POST'])
-def add():
-    name = request.form.get("name")
-    dueIn = request.form.get("dueDate")
-    dayCreated = date.today()
-    if dueIn != None:
-        dueDate = dayCreated + timedelta(days=int(dueIn))
-    else:
-        dueDate = None
-    new_task=Todo(name=name,done=False, userId=session['userId'], created=dayCreated, dueDate=dueDate)
-    db.session.add(new_task)
-    db.session.commit()
-    return redirect(url_for("home"))
 
-@app.route('/update/<int:todo_id>')
-def update(todo_id):
-    todo= Todo.query.get(todo_id)
-    if session['userId'] == todo.userId:
-        todo.done=not todo.done
-        db.session.commit()
-    return redirect(url_for("home"))
-
-
-@app.route('/delete/<int:todo_id>')
-def delete(todo_id):
-    todo= Todo.query.get(todo_id)
-    if session['userId'] == todo.userId:
-        db.session.delete(todo)
-        db.session.commit()
-    return redirect(url_for("home"))
 
 
 if __name__ == '__main__':
