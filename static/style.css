@@ -141,8 +141,14 @@ tr:hover {
 }
 
 .weathercard {
+    background: white;
+    border-radius: 14px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 6px 14px rgba(0,0,0,0.08);
     text-align: center;
     margin: 1rem;
+    width: 20%;
 }
 
 .newscard {

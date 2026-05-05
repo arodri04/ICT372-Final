@@ -13,11 +13,11 @@
             <button class="button1" type="submit" >Get Weather</button>
             </div>
         </form>
-        <div class="weathercard">
+        <div class="weathercard" style="margin-left: 40%;">
         {% if weather %}
             {{ weather.main }}: {{ weather.description}} <br>
-            <img src="https://openweathermap.org/img/wn/{{ weather.icon }}@2x.png" />
-            {{ weather.temp }}
+            <img src="https://openweathermap.org/img/wn/{{ weather.icon }}@2x.png" /><br>
+            {{ weather.temp }}°
         {% endif %}
         </div>
 </div>
