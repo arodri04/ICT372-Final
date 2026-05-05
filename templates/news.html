@@ -1,31 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SpaceTracker</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-
-    <nav class="navbar">
-        <a href="{{ url_for('home') }}" style="text-decoration: none; color: inherit;"><h2 class="logo">Space Corp</h2></a>
-        <div class="nav-right">
-            <a href="{{ url_for('news') }}">News</a>
-
-        </div>
-        <div class="nav-right">
-            <a href="{{ url_for('login') }}">Login</a>
-            <a href="{{ url_for('register') }}">Register</a>
-            <a href="{{ url_for('logout') }}">Logout</a>
-        </div>
- 
-    </nav>
+{% extends "base.html" %}
+{% block main %}
     {% if articles %}
     <div class="container">
         {% for article in articles %}
-        <div class="card">
-            <img src="{{ article['image_url'] }}" alt="{{ article['title'] }}" style="width:50%; height:auto;">
+        <div class="card" style="display: flexbox; text-align: center;">
+            <img src="{{ article['image_url'] }}" alt="{{ article['title'] }}" style="width:50%; height:auto">
             <a href='{{ article["url"] }}' ><h4>{{ article["title"] }}</h4></a>
             <p>{{ article["authors"][0]["name"] }}</p>
             <p>{{ article["published_at"][:10] }}</p>          
@@ -36,5 +15,4 @@
     </div>
     {% endif %}
 
-</body>
-</html>
+{% endblock main %}

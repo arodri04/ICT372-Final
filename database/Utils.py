@@ -5,7 +5,19 @@ import re
 from datetime import date
 import random
 import requests
+from dataclasses import dataclass
 
+#CLASSES
+@dataclass
+class WeatherData:
+    main: str
+    description: str
+    icon: str
+    temp: float
+
+
+
+#FUNCTIONS
 def connectDB():
     try:
         conn = sqlite3.connect('./instance/db.sqlite')
@@ -86,7 +98,26 @@ def getUserId(username):
         if conn:
             conn.close()
 
+def getLatLon(cityName, stateCode, countryCode, WEATHER_KEY):
+    url = f"http://api.openweathermap.org/geo/1.0/direct?q={cityName},{stateCode},{countryCode}&appid={WEATHER_KEY}"
+    response = requests.get(url).json()
+    data = response[0]
+    lat, lon = data['lat'], data['lon']
+    return lat, lon
 
+def getCurrentWeather(lat, lon, WEATHER_KEY):
+    url = f"https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={WEATHER_KEY}&units=imperial"
+    response = requests.get(url).json()
+    data = WeatherData(
+        main=response['weather'][0]['main'],
+        description=response['weather'][0]['description'],
+        icon=response['weather'][0]['icon'],
+        temp=response['main']['temp']
+    )
+    
+    return data
+    
+    
 def getNews():
     url = "https://api.spaceflightnewsapi.net/v4/articles"
     response = requests.get(url)

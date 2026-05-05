@@ -1,24 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Todo App</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css')}}">
-</head>
-    <nav class="navbar">
-        <a href="{{ url_for('home') }}" style="text-decoration: none; color: inherit;"><h2 class="logo">Space Corp</h2></a>
-        <div class="nav-right">
-            <a href="{{ url_for('news') }}">News</a>
-
-        </div>
-        <div class="nav-right">
-            <a href="{{ url_for('login') }}">Login</a>
-            <a href="{{ url_for('register') }}">Register</a>
-            <a href="{{ url_for('logout') }}">Logout</a>
-        </div>
- 
-    </nav>
-<body>
+{% extends "base.html" %}
+{% block main %}
 <div class="container" >
         <h1>Register</h1>
         {% if error %}
@@ -34,5 +15,4 @@
             </div>
         </form>
 </div>
-</body>
-</html>
+{% endblock main %}
