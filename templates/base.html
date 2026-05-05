@@ -15,18 +15,19 @@
             <a href="{{ url_for('weather') }}">Weather</a>
         </div>
         <div class="nav-right">
+            {% if user %}
+            {{ user }}
+            {% endif %}
             <a href="{{ url_for('login') }}">Login</a>
             <a href="{{ url_for('register') }}">Register</a>
             <a href="{{ url_for('logout') }}">Logout</a>
         </div>
  
     </nav>
-    
-        <div class="card">
+    <div class="container">
+        <div class="card" style="text-align: center;">
             <h1>Space Corp</h1>
-            {% if user %}
-                <p class="welcome">Hello, {{ user }}</p>
-            {% endif %}
+            <p>The Space Corp Dashboard is a Flask-based web application designed for aerospace enthusiasts, industry professionals, and mission controllers. It serves as a centralized hub for monitoring critical terrestrial weather, space environment data, and the financial performance of major space-focused corporations.</p>
         </div>
     </div>
     {% block main %}
