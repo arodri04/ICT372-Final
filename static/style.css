@@ -120,3 +120,61 @@ tr:hover {
     background: #dcfce7;
     color: #15803d;
 }
+
+.weatherdiv {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+
+}
+
+.weatherdiv label,
+.weatherdiv input {
+    flex: 0 0 30%;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.weatherdiv button {
+  flex: 0 0 100%;
+  margin-top: 10px;
+}
+
+.weathercard {
+    text-align: center;
+    margin: 1rem;
+}
+
+.newscard {
+    background: white;
+    border-radius: 14px;
+    padding: 20px;
+    margin: 1%;
+    box-shadow: 0 6px 14px rgba(0,0,0,0.08);
+    width: 30%;
+}
+
+.newscard p {
+    background-color: lightblue;
+    margin: 0;
+}
+
+.newscard p:first-of-type {
+  border-radius: 10px 10px 0 0;
+  padding-top: 5%;
+}
+
+
+.newscard p:last-of-type {
+  border-radius: 0 0 10px 10px;
+  padding-bottom: 5%;
+}
+
+.newscontainer {
+    max-width: 1000px;
+    margin: 30px auto;
+    padding: 0 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}

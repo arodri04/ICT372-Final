@@ -2,19 +2,24 @@
 {% block main %}
 <div class="container" >
         <form  action="/weather" method="post">
-            <div >
+            <div class="weatherdiv">
                 <label class="thick">City</label>
-                <input type="text" name="city" value="Albuquerque">
                 <label class="thick">State Code</label>
-                <input type="text" name="state" value="NM">
                 <label class="thick">Country Code</label>
+                
+                <input type="text" name="city" value="Albuquerque">
+                <input type="text" name="state" value="NM">
                 <input type="text" name="country" value="US">
             <button class="button1" type="submit" >Get Weather</button>
             </div>
         </form>
+        <div class="weathercard">
         {% if weather %}
-            <p>{{ weather }}</p>
+            {{ weather.main }}: {{ weather.description}} <br>
+            <img src="https://openweathermap.org/img/wn/{{ weather.icon }}@2x.png" />
+            {{ weather.temp }}
         {% endif %}
+        </div>
 </div>
 
 {% endblock main %}

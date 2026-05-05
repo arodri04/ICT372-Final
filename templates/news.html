@@ -1,15 +1,14 @@
 {% extends "base.html" %}
 {% block main %}
     {% if articles %}
-    <div class="container">
+    <div class="newscontainer">
         {% for article in articles %}
-        <div class="card" style="display: flexbox; text-align: center;">
+        <div class="newscard" style="display: flexbox; text-align: center;">
             <img src="{{ article['image_url'] }}" alt="{{ article['title'] }}" style="width:50%; height:auto">
             <a href='{{ article["url"] }}' ><h4>{{ article["title"] }}</h4></a>
             <p>{{ article["authors"][0]["name"] }}</p>
             <p>{{ article["published_at"][:10] }}</p>          
-            <p>{{ article["summary"] }}</p>
-            
+            <p>{{ article["summary"] }}</p>    
         </div>
         {% endfor %}
     </div>
