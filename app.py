@@ -46,20 +46,31 @@ def news():
 
 @app.route('/weather', methods=["GET","POST"])
 def weather():
-    if request.method =="POST":
-        user = session['user']
-        city = request.form.get('city')
-        state = request.form.get('state')
-        country = request.form.get('country')
+    if session:
+        if request.method =="POST":
+            user = session['user']
+            city = request.form.get('city')
+            state = request.form.get('state')
+            country = request.form.get('country')
+            try:
+                lat, lon = getLatLon(city, state, country, WEATHER_KEY)
+                weather = getCurrentWeather(lat, lon, WEATHER_KEY)
+                return rt("weather.html", weather=weather, user=user, city=city, state=state, country=country)
+            except:
+                error = "Could not get data"
+                return rt("weather.html", error=error, user=user, city="", state="", country="")  
         
-        lat, lon = getLatLon(city, state, country, WEATHER_KEY)
-        weather = getCurrentWeather(lat, lon, WEATHER_KEY)
-        return rt("weather.html", weather=weather, user=user)
+        else:
+            user = session['user']
+            city = "Albuquerque"
+            state = "NM"
+            country = "US"
+            lat, lon = getLatLon('Albuquerque', 'NM', "US", WEATHER_KEY)
+            weather = getCurrentWeather(lat, lon, WEATHER_KEY)
+            
+            return rt("weather.html", weather=weather, user=user, city=city, state=state, country=country)
     else:
-        lat, lon = getLatLon('Albuquerque', 'NM', "US", WEATHER_KEY)
-        weather = getCurrentWeather(lat, lon, WEATHER_KEY)
-        return rt("weather.html", weather=weather)
-     
+        return rt("login.html", error="Please Log In")
         
 @app.route('/login', methods=["GET","POST"])
 def login():

@@ -108,6 +108,7 @@ def getLatLon(cityName, stateCode, countryCode, WEATHER_KEY):
 def getCurrentWeather(lat, lon, WEATHER_KEY):
     url = f"https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={WEATHER_KEY}&units=imperial"
     response = requests.get(url).json()
+
     data = WeatherData(
         main=response['weather'][0]['main'],
         description=response['weather'][0]['description'],
@@ -115,8 +116,7 @@ def getCurrentWeather(lat, lon, WEATHER_KEY):
         temp=response['main']['temp']
     )
     
-    return data
-    
+    return data   
     
 def getNews():
     url = "https://api.spaceflightnewsapi.net/v4/articles"

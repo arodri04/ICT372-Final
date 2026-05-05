@@ -4,16 +4,28 @@
         <form  action="/weather" method="post">
             <div >
                 <label class="thick">City</label>
-                <input type="text" name="city" value="Albuquerque">
+                <input type="text" name="city" value="{{ city }}">
                 <label class="thick">State Code</label>
-                <input type="text" name="state" value="NM">
+                <input type="text" name="state" value="{{ state }}">
                 <label class="thick">Country Code</label>
-                <input type="text" name="country" value="US">
+                <input type="text" name="country" value="{{ country }}">
             <button class="button1" type="submit" >Get Weather</button>
             </div>
         </form>
+        {% if error %}
+        <p>{{ error }}</p>
+        {% endif %}
         {% if weather %}
+        <div style="text-align: center;">
+            <h2>Current Weather in {{ city }}, {{ state }}</h2>
+            <label class="thick">Sky</label>
+            <p>{{ weather.main }}</p>
+            <label class="thick">Description</label>
+            <p>{{ weather.description }}</p>
+            <label class="thick">Temperature</label>
+            <p>{{ weather.temp }}</p>
             <p>{{ weather }}</p>
+        </div>
         {% endif %}
 </div>
 
