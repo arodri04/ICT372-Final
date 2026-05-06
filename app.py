@@ -11,6 +11,7 @@ import os
 
 load_dotenv()
 WEATHER_KEY = os.getenv('WEATHER_KEY')
+FORECAST_KEY = os.getenv('FORECAST_KEY')
 app = Flask(__name__)
 app.secret_key = "secret"
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
@@ -55,7 +56,9 @@ def weather():
             try:
                 lat, lon = getLatLon(city, state, country, WEATHER_KEY)
                 weather = getCurrentWeather(lat, lon, WEATHER_KEY)
-                return rt("weather.html", weather=weather, user=user, city=city, state=state, country=country)
+                forecast = getFiveDayForecast(lat, lon, FORECAST_KEY)
+                
+                return rt("weather.html", weather=weather, forecast=forecast, user=user, city=city, state=state, country=country)
             except:
                 error = "Could not get data"
                 return rt("weather.html", error=error, user=user, city="", state="", country="")  

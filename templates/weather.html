@@ -7,19 +7,37 @@
                 <label class="thick">State Code</label>
                 <label class="thick">Country Code</label>
                 
-                <input type="text" name="city" value="Albuquerque">
-                <input type="text" name="state" value="NM">
-                <input type="text" name="country" value="US">
+                <input type="text" name="city" value="{{ city }}">
+                <input type="text" name="state" value="{{ state }}">
+                <input type="text" name="country" value="{{ country }}">
             <button class="button1" type="submit" >Get Weather</button>
             </div>
         </form>
         <div class="weathercard" style="margin-left: 40%;">
+        {% if error %}
+            <h1>{{ error }}</h1>
+        {% endif%}
         {% if weather %}
             {{ weather.main }}: {{ weather.description}} <br>
             <img src="https://openweathermap.org/img/wn/{{ weather.icon }}@2x.png" /><br>
             {{ weather.temp }}°
         {% endif %}
+
         </div>
+        {% if forecast %}
+        <h1 style="text-align: center;">Five Day Forecast</h1>   
+        <div class="forecastContainer">
+        
+        {% for day in forecast %}
+        
+        <div class="weathercard">
+            {{ day.main }}: {{ day.description}} <br>
+            <img src="https://openweathermap.org/img/wn/{{ day.icon }}@2x.png" /><br>
+            {{ day.temp }}°
+        </div>
+        {% endfor %}
+        </div>
+        {% endif %}
 </div>
 
 {% endblock main %}

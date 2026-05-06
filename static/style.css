@@ -135,6 +135,12 @@ tr:hover {
     box-sizing: border-box;
 }
 
+.forecastContainer {
+    display:flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
 .weatherdiv button {
   flex: 0 0 100%;
   margin-top: 10px;

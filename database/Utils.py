@@ -103,12 +103,33 @@ def getLatLon(cityName, stateCode, countryCode, WEATHER_KEY):
     response = requests.get(url).json()
     data = response[0]
     lat, lon = data['lat'], data['lon']
+    print(f"DEBUG: {lat}, {lon}")
     return lat, lon
+
+def getFiveDayForecast(lat, lon, WEATHER_KEY):
+    url = f"https://api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}&appid={WEATHER_KEY}&units=imperial"
+    response = requests.get(url).json()
+    data = []
+
+    for i in range(5):
+        try:
+            dayData = WeatherData(
+                main=response['list'][i]["weather"][0]["main"],
+                description=response['list'][i]['weather'][0]["description"],
+                icon=response['list'][i]["weather"][0]['icon'],
+                temp=response['list'][i]["main"]['temp']
+            )
+            data.append(dayData)
+        except Exception as e:
+            print(f"Error Making day data: {e}")
+        
+    
+    return data
 
 def getCurrentWeather(lat, lon, WEATHER_KEY):
     url = f"https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={WEATHER_KEY}&units=imperial"
     response = requests.get(url).json()
-
+    
     data = WeatherData(
         main=response['weather'][0]['main'],
         description=response['weather'][0]['description'],
