@@ -13,8 +13,9 @@
         <div class="nav-right">
             <a href="{{ url_for('news') }}">News</a>
             <a href="{{ url_for('weather') }}">Weather</a>
+            <a href="{{ url_for('finance') }}">Finance</a>
         </div>
-        <div class="nav-right">
+        <div class="nav-center">
             {% if user %}
             {{ user }}
             {% endif %}

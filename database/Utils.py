@@ -2,7 +2,9 @@ import sqlite3
 import hashlib
 import string
 import re
-from datetime import date
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
+import yfinance as yf
 import random
 import requests
 from dataclasses import dataclass
@@ -74,9 +76,14 @@ def validateEmail(username):
     finally:
         if conn:
             conn.close()
+
+
+def saltShaker():
+    characters = string.ascii_letters + string.digits
+    salt = ''.join(random.choices(characters, k=5))
+    return salt
+
     
-
-
 def getUserId(username):
     try:
         conn = connectDB()
@@ -98,13 +105,15 @@ def getUserId(username):
         if conn:
             conn.close()
 
+#WEATHER FUNCTIONS
+
 def getLatLon(cityName, stateCode, countryCode, WEATHER_KEY):
     url = f"http://api.openweathermap.org/geo/1.0/direct?q={cityName},{stateCode},{countryCode}&appid={WEATHER_KEY}"
     response = requests.get(url).json()
     data = response[0]
     lat, lon = data['lat'], data['lon']
-    print(f"DEBUG: {lat}, {lon}")
     return lat, lon
+
 
 def getFiveDayForecast(lat, lon, WEATHER_KEY):
     url = f"https://api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}&appid={WEATHER_KEY}&units=imperial"
@@ -138,7 +147,9 @@ def getCurrentWeather(lat, lon, WEATHER_KEY):
     )
     
     return data   
-    
+
+#NEWS FUNCTIONS
+
 def getNews():
     url = "https://api.spaceflightnewsapi.net/v4/articles"
     response = requests.get(url)
@@ -151,10 +162,29 @@ def getNews():
     else:
         print(f"Error: {response.status_code}") 
     
-def saltShaker():
-    characters = string.ascii_letters + string.digits
-    salt = ''.join(random.choices(characters, k=5))
-    return salt
+#STOCK FUNCTIONS
+
+def getStocks():
+    
+    ticker = yf.Ticker("AAPL")
+    monthlyData = ticker.history(period="6mo", interval="1mo")
+    xValues = []
+    yValues = []
+
+    dfReset = monthlyData.reset_index()
+    
+    for month in dfReset['Date']:
+        dateInterval = datetime.fromisoformat(str(month)).strftime("%m/%d/%Y")
+        xValues.append(dateInterval)
+
+    for month in monthlyData["Open"]:
+        yValues.append(round(month, 2))
+    
+    print(xValues)
+    print(yValues)
+
+    return xValues, yValues
 
 
+    
 

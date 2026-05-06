@@ -4,7 +4,11 @@ from database.database import db
 from database.models import *
 from database.Utils import *
 from dotenv import load_dotenv
+import plotly
+import plotly.express as px
+import plotly.io as pio
 import hashlib
+import json
 import os
 
 
@@ -44,6 +48,37 @@ def news():
         user = None 
         articles = None
     return rt('news.html', user=user, articles=articles)
+
+@app.route('/finance')
+def finance():
+    #If there is no session populate with none
+    if session:
+        user = session['user']
+        xValues, yValues = getStocks()
+        figure = {
+            "data": [
+                {
+                    "x":xValues,
+                    "y":yValues,
+                    "type":"scatter",
+                    "mode":"markers+lines",
+                    "name":"Stock Price"
+                }
+            ],
+            "layout": {
+                "title": "Stock Prices Over Time",
+                "xaxis": {"title": "Time"},
+                "yaxis": {"title": "Price"}
+            }
+        }
+        graph_json = json.dumps(figure, cls=plotly.utils.PlotlyJSONEncoder)
+
+        return rt("finance.html", user=user, graph=graph_json)    
+    else:
+        user = None 
+        return rt('login.html', error="Please Log In")
+    
+    
 
 @app.route('/weather', methods=["GET","POST"])
 def weather():

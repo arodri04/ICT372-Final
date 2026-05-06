@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block main %}
+<head>
+    <title>Flask Plotly Graph</title>
+    <!-- Load Plotly.js from CDN -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<div class="container">
+    <h1>Stock Prices</h1>
+    <div id="chart-container"></div>
+    <script type="text/javascript">
+        var graphData = {{ graph | safe }};
+        Plotly.newPlot('chart-container', graphData.data, graphData.layout);
+    </script>
+</div>
+{% endblock main %}

@@ -24,13 +24,17 @@ body {
 
 .nav-right a {
     color: #cbd5f5;
-    margin-left: 20px;
+    margin-left: 10px;
     text-decoration: none;
     font-weight: bold;
 }
 
 .nav-right a:hover {
     color: white;
+}
+
+.nav-center{
+    margin-left: -10%;
 }
 
 .container {
