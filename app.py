@@ -55,6 +55,7 @@ def finance():
     if session:
         user = session['user']
         xValues, yValues = getStocks()
+        randomTickers()
         figure = {
             "data": [
                 {

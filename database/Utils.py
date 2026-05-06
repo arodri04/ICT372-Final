@@ -186,5 +186,11 @@ def getStocks():
     return xValues, yValues
 
 
+def randomTickers():
+    spaceTickers = ["RKLB", "LUNR", "ASTS", "PL", "RDW", "VOYG", "SPIR", "FLY", "SPCE", "SATS", "IRDM", "LMT", "NOC", "BA", "LHX", "BKSY", "MNTS","SIDU"]
+    data = []
     
+    randomIndex = random.sample(range(len(spaceTickers)), k=5)
+    for i in randomIndex:
+        print(spaceTickers[i])
 
