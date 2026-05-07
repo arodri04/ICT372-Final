@@ -32,9 +32,14 @@ body {
 .nav-right a:hover {
     color: white;
 }
-
 .nav-center{
     margin-left: -10%;
+}
+.nav-center a {
+    color: #cbd5f5;
+    margin-left: 10px;
+    text-decoration: none;
+    font-weight: bold;
 }
 
 .container {

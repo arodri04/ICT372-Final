@@ -6,11 +6,33 @@
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
 <div class="container">
+    <form  action="/finance" method="post">
+        <div>
+            <label class="thick">Enter A Ticker Symbol:</label>            
+            <input type="text" name="inputTicker" value="{{ inputTicker }}">
+        <button class="button1" type="submit" >Get Stock</button>
+        </div>
+    </form>
     <h1>Stock Prices</h1>
     <div id="chart-container"></div>
+    
     <script type="text/javascript">
         var graphData = {{ graph | safe }};
         Plotly.newPlot('chart-container', graphData.data, graphData.layout);
+    
+    
+
     </script>
+    {% for graph in graphs %}
+    {% if graph %}
+    <br>
+    <div id="chart{{ loop.index }}"></div>
+    <script type="text/javascript">
+        var graphData = {{ graph | safe }};
+        Plotly.newPlot('chart{{ loop.index }}', graphData.data, graphData.layout);
+    </script>
+    {% endif %}
+    {% endfor %}
+    
 </div>
 {% endblock main %}

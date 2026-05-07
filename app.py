@@ -49,32 +49,44 @@ def news():
         articles = None
     return rt('news.html', user=user, articles=articles)
 
-@app.route('/finance')
+@app.route('/finance', methods=["GET","POST"])
 def finance():
     #If there is no session populate with none
     if session:
-        user = session['user']
-        xValues, yValues = getStocks()
-        randomTickers()
-        figure = {
-            "data": [
-                {
-                    "x":xValues,
-                    "y":yValues,
-                    "type":"scatter",
-                    "mode":"markers+lines",
-                    "name":"Stock Price"
-                }
-            ],
-            "layout": {
-                "title": "Stock Prices Over Time",
-                "xaxis": {"title": "Time"},
-                "yaxis": {"title": "Price"}
-            }
-        }
-        graph_json = json.dumps(figure, cls=plotly.utils.PlotlyJSONEncoder)
+        if request.method == "POST":
+            user = session['user']
+            inputTicker = request.form.get('inputTicker')
+            figure = getStocks(inputTicker)
+            randomTickerData = randomTickers()
 
-        return rt("finance.html", user=user, graph=graph_json)    
+            graph_json = json.dumps(figure, cls=plotly.utils.PlotlyJSONEncoder)
+            graphOne = json.dumps(randomTickerData[0], cls=plotly.utils.PlotlyJSONEncoder)
+            graphTwo = json.dumps(randomTickerData[1], cls=plotly.utils.PlotlyJSONEncoder)
+            graphThree = json.dumps(randomTickerData[2], cls=plotly.utils.PlotlyJSONEncoder)
+            graphFour = json.dumps(randomTickerData[3], cls=plotly.utils.PlotlyJSONEncoder)
+            graphFive = json.dumps(randomTickerData[4], cls=plotly.utils.PlotlyJSONEncoder)
+            graphs = [graphOne, graphTwo, graphThree, graphFour, graphFive]
+            
+            filterGraphs = [g for g in graphs if len(g[0][0]) != 0 ]
+            
+            return rt("finance.html", user=user, graph=graph_json, graphs=filterGraphs, inputTicker=inputTicker) 
+        else:
+            user = session['user']
+            inputTicker = request.form.get('inputTicker')
+            figure = getStocks(inputTicker)
+            randomTickerData = randomTickers()
+
+            graph_json = json.dumps(figure, cls=plotly.utils.PlotlyJSONEncoder)
+            graphOne = json.dumps(randomTickerData[0], cls=plotly.utils.PlotlyJSONEncoder)
+            graphTwo = json.dumps(randomTickerData[1], cls=plotly.utils.PlotlyJSONEncoder)
+            graphThree = json.dumps(randomTickerData[2], cls=plotly.utils.PlotlyJSONEncoder)
+            graphFour = json.dumps(randomTickerData[3], cls=plotly.utils.PlotlyJSONEncoder)
+            graphFive = json.dumps(randomTickerData[4], cls=plotly.utils.PlotlyJSONEncoder)
+            graphs = [graphOne, graphTwo, graphThree, graphFour, graphFive]
+            
+            filterGraphs = [g for g in graphs if len(g[0][0]) != 0 ]
+            
+            return rt("finance.html", user=user, graph=graph_json, graphs=filterGraphs) 
     else:
         user = None 
         return rt('login.html', error="Please Log In")
@@ -106,8 +118,8 @@ def weather():
             country = "US"
             lat, lon = getLatLon('Albuquerque', 'NM', "US", WEATHER_KEY)
             weather = getCurrentWeather(lat, lon, WEATHER_KEY)
-            
-            return rt("weather.html", weather=weather, user=user, city=city, state=state, country=country)
+            forecast = getFiveDayForecast(lat, lon, FORECAST_KEY)
+            return rt("weather.html", weather=weather, forecast=forecast, user=user, city=city, state=state, country=country)
     else:
         return rt("login.html", error="Please Log In")
         

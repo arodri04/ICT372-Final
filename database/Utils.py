@@ -7,6 +7,7 @@ from dateutil.relativedelta import relativedelta
 import yfinance as yf
 import random
 import requests
+from tickers import spaceCompaniesTickers
 from dataclasses import dataclass
 
 #CLASSES
@@ -164,33 +165,61 @@ def getNews():
     
 #STOCK FUNCTIONS
 
-def getStocks():
-    
-    ticker = yf.Ticker("AAPL")
-    monthlyData = ticker.history(period="6mo", interval="1mo")
-    xValues = []
-    yValues = []
+def getStocks(tick):
+    try:
+        ticker = yf.Ticker(tick)
+        
+        monthlyData = ticker.history(period="6mo", interval="1wk")
+        
+        if monthlyData.empty:
+            print(f"Skipping {tick}: No Data")
+            return None
+        
+        if "No timezone found" in str(ticker.history(period="1d")):
+            print(f"Skipping {tick}: Delisted/Invalid")
+            return None
+        
+        xValues = []
+        yValues = []
 
-    dfReset = monthlyData.reset_index()
-    
-    for month in dfReset['Date']:
-        dateInterval = datetime.fromisoformat(str(month)).strftime("%m/%d/%Y")
-        xValues.append(dateInterval)
+        dfReset = monthlyData.reset_index()
+        
+        for month in dfReset['Date']:
+            dateInterval = datetime.fromisoformat(str(month)).strftime("%m/%d")
+            xValues.append(dateInterval)
 
-    for month in monthlyData["Open"]:
-        yValues.append(round(month, 2))
-    
-    print(xValues)
-    print(yValues)
+        for month in monthlyData["Open"]:
+            yValues.append(round(month, 2))
+            
+        figure = {
+                "data": [
+                    {
+                        "x":xValues,
+                        "y":yValues,
+                        "type":"scatter",
+                        "mode":"markers+lines",
+                        "name":ticker.info.get('longName')
+                    }
+                ],
+                "layout": {
+                    "title": ticker.info.get('longName'),
+                    "xaxis": {"title": "Time"},
+                    "yaxis": {"title": "Price"}
+                }
+            }
 
-    return xValues, yValues
+        return figure
+    except Exception as e:
+        print(f"Failed to fetch {tick}: {e}")
+        
 
 
 def randomTickers():
-    spaceTickers = ["RKLB", "LUNR", "ASTS", "PL", "RDW", "VOYG", "SPIR", "FLY", "SPCE", "SATS", "IRDM", "LMT", "NOC", "BA", "LHX", "BKSY", "MNTS","SIDU"]
     data = []
     
-    randomIndex = random.sample(range(len(spaceTickers)), k=5)
+    randomIndex = random.sample(range(len(spaceCompaniesTickers)), k=5)
     for i in randomIndex:
-        print(spaceTickers[i])
+        data.append(getStocks(spaceCompaniesTickers[i]))
+    
+    return data
 
